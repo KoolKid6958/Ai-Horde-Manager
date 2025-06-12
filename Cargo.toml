@@ -1,0 +1,10 @@
+[package]
+name = "ai-horde-manager"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+slint = { version = "1.11.0", features = ["renderer-skia"] }
+
+[build-dependencies]
+slint-build = "1.11.0"
