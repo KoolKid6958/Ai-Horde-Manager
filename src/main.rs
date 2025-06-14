@@ -1,4 +1,4 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // makes the terminal not show on windows
+//#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // makes the terminal not show on windows //disabled for now
 
 slint::include_modules!();
 
