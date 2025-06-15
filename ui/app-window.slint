@@ -1,9 +1,25 @@
-import { Textf } from "blocks.slint";
+import { Textf, Button } from "blocks.slint";
 
 export component Main_Window inherits Window {
     Textf {
         text: "Ai horde manager!";
+        font-size: 40px;
+        y: 90px;
     }
+    Textf {
+        text: "Note that this is still a very early alpha, and this is just basic install functionality. More will be added later.";
+        wrap: word-wrap;
+        width: root.width - 40px;
+    }
+
+    Button {
+        y: 375px;
+        width: 100px;
+        Textf {
+            text: "Install Horde";
+        }
+    }
+
     title: "Ai Horde Manager";
     preferred-height: 700px;
     preferred-width: 450px;

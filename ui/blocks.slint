@@ -5,3 +5,13 @@ import { themes } from "globals.slint";
 export component Textf inherits Text {
     color: themes.text_color;
 }
+export component Button inherits TouchArea{
+    width: 75px;
+    height: 30px;
+    Rectangle {
+        background: themes.button_color;
+        border-width: 2px;
+        border-radius: 15px;
+        border-color: themes.button_border_color;
+    }
+}
