@@ -5,7 +5,8 @@ import { themes } from "globals.slint";
 export component Textf inherits Text {
     color: themes.text_color;
 }
-export component Button inherits TouchArea{
+
+export component Button inherits TouchArea {
     width: 75px;
     height: 30px;
     Rectangle {
@@ -14,4 +15,10 @@ export component Button inherits TouchArea{
         border-radius: 15px;
         border-color: themes.button_border_color;
     }
+}
+
+export component Progress_Map inherits VerticalLayout { //currently unused
+    alignment: start;
+    y: 10px;
+    x: 10px;
 }

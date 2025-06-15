@@ -1,4 +1,4 @@
-import { Textf, Button } from "blocks.slint";
+import { Textf, Button, Progress_Map } from "blocks.slint";
 
 export component Main_Window inherits Window {
     Textf {
@@ -6,17 +6,25 @@ export component Main_Window inherits Window {
         font-size: 40px;
         y: 90px;
     }
+
     Textf {
-        text: "Note that this is still a very early alpha, and this is just basic install functionality. More will be added later.";
+        text: "Note that this is still a very early alpha, and this is just basic install functionality. More will be added later. \n\n\n You can check the logs for progresss";
         wrap: word-wrap;
         width: root.width - 40px;
+        y: 160px;
+        font-size: 20px;
     }
 
+    callback install_horde();
     Button {
         y: 375px;
         width: 100px;
         Textf {
             text: "Install Horde";
+        }
+
+        clicked => {
+            install_horde()
         }
     }
 
