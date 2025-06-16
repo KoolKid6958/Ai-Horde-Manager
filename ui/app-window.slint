@@ -8,14 +8,14 @@ export component Main_Window inherits Window {
     }
 
     Textf {
-        text: "Note that this is still a very early alpha, and this is just basic install functionality. More will be added later. \n\n\n You can check the logs for progresss";
+        text: "Note that this is still a very early alpha, and this is just basic install functionality. More will be added later. \n\n\n You can check the logs for progress";
         wrap: word-wrap;
         width: root.width - 40px;
         y: 160px;
         font-size: 20px;
     }
 
-    callback install_horde();
+    callback install();
     Button {
         y: 375px;
         width: 100px;
@@ -24,7 +24,7 @@ export component Main_Window inherits Window {
         }
 
         clicked => {
-            install_horde()
+            install()
         }
     }
 
