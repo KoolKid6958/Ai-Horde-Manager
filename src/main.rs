@@ -2,8 +2,8 @@
 
 slint::include_modules!();
 
+use std::env;
 use std::process::Command;
-
 fn main() -> Result<(), slint::PlatformError> {
     let main_window = Main_Window::new()?;
     main_window.on_install(|| {
@@ -53,7 +53,14 @@ fn check_for_deps_win() {
             println!("Python is installed. Proceeding.\n");
         }
         Ok(_) => {
-            println!("Python was found but returned an error\n");
+            #[cfg(windows)]
+            println!(
+                "Python was found but returned an error, It is assumed that python is not actually installed, so installing with scoop.\n"
+            );
+            #[cfg(windows)]
+            install_python();
+            #[cfg(unix)]
+            println!("Python was found but returned an error.\n");
         }
         Err(e) => {
             println!("Python was not found, installing (Error: '{}')\n", e);
@@ -68,29 +75,83 @@ fn check_for_deps_linux() {
 }
 #[cfg(windows)]
 fn install_scoop() {
-    println!("Installing scoop");
+    println!("Installing scoop\n");
+    let scoop_install_script = r#"
+        Set-Location C:\;
+        Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression;
+        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+    "#;
+    let scoop_install_command = Command::new("powershell")
+        .args(&[
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-Command",
+            scoop_install_script,
+        ])
+        .status()
+        .expect("Failed to launch powershell");
+    if scoop_install_command.success() {
+        println!("Scoop installed successfully!");
+    } else {
+        println!("Failed to install Scoop.");
+    }
 }
+
 fn install_python() {
-    //for now this will do a global install
     println!("Installing Python");
+    let scoop_path = format!(
+        r"{}\scoop\shims\scoop.cmd",
+        env::var("USERPROFILE").unwrap()
+    );
+    let python_install_command = Command::new(scoop_path)
+        .arg("install")
+        .arg("python")
+        .status()
+        .expect("Failed to launch Scoop");
+    if python_install_command.success() {
+        println!("python installed successfully!");
+    } else {
+        println!("Failed to install Scoop.");
+    }
 }
+
 fn install_git() {
-    //for now this will do a global install
-    println!("Installing git");
+    println!("Installing Git");
+    let scoop_path = format!(
+        r"{}\scoop\shims\scoop.cmd",
+        env::var("USERPROFILE").unwrap()
+    );
+    let git_install_command = Command::new(scoop_path)
+        .arg("install")
+        .arg("git")
+        .status()
+        .expect("Failed to launch Scoop");
+    if git_install_command.success() {
+        println!("git installed successfully!");
+    } else {
+        println!("Failed to install Scoop.");
+    }
 }
 fn install_horde() {
-    println!("Cloning ai horde");
-    Command::new("git")
+    println!("Cloning AI Horde ReGen");
+    let git_path = format!(
+        r"{}\scoop\apps\git\current\cmd\git.exe",
+        env::var("USERPROFILE").unwrap()
+    );
+    Command::new(git_path)
         .arg("clone")
-        .arg("http://ryzen7-1700-a:3001/root/Learning-C.git")
+        .arg("https://github.com/Haidra-Org/horde-worker-reGen.git")
         .arg("Horde-Image")
         .status()
         .expect("Something went wrong while trying clone the ai horde");
 }
 fn install() {
+    println!("Starting install");
     #[cfg(windows)]
     check_for_deps_win();
     #[cfg(unix)]
     check_for_deps_linux();
-    // install_horde()
+    install_horde();
+    println!("\nInstall finished!");
 }
