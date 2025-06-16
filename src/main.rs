@@ -4,6 +4,7 @@ slint::include_modules!();
 
 use std::env;
 use std::process::Command;
+
 fn main() -> Result<(), slint::PlatformError> {
     let main_window = Main_Window::new()?;
     main_window.on_install(|| {
